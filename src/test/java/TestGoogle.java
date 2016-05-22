@@ -29,6 +29,6 @@ public class TestGoogle {
 
         TakesScreenshot sc = (TakesScreenshot) webDriver;
         byte[] screenshotAs = sc.getScreenshotAs(OutputType.BYTES);
-        LOGGER.info("Screenshot taken" + screenshotAs.length);
+        LOGGER.info("Screenshot taken! Size = " + screenshotAs.length);
     }
 }

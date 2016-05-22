@@ -1,3 +1,4 @@
+import java.util.logging.Logger;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,19 +14,21 @@ import org.testcontainers.containers.BrowserWebDriverContainer;
  */
 public class TestGoogle {
 
+    private static final Logger LOGGER = Logger.getLogger(TestGoogle.class.getName());
     @Rule
     public BrowserWebDriverContainer chrome = new BrowserWebDriverContainer()
             .withDesiredCapabilities(DesiredCapabilities.chrome());
 
     @Test
-    public void test(){
+    public void test() {
+        LOGGER.info("Starting");
         RemoteWebDriver webDriver = chrome.getWebDriver();
         webDriver.get("https://ok.ru");
 
-        Assert.assertTrue(webDriver.findElements(By.id("field_email")).size()>0);
+        Assert.assertTrue(webDriver.findElements(By.id("field_email")).size() > 0);
 
         TakesScreenshot sc = (TakesScreenshot) webDriver;
         byte[] screenshotAs = sc.getScreenshotAs(OutputType.BYTES);
-        System.out.println("Screenshot taken"+screenshotAs.length);
+        LOGGER.info("Screenshot taken" + screenshotAs.length);
     }
 }

@@ -13,7 +13,7 @@ import org.openqa.selenium.WebDriver;
 public class Screenshoter {
 
     private static final Logger LOGGER = Logger.getLogger(Screenshoter.class.getName());
-    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("ddMMyyyy_hhmmSSss");
+    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("ddMMyyyy_HHmmssSS");
     private static final String PNG = ".png";
     private final String token;
 

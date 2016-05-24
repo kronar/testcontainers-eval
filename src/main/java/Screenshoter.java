@@ -1,13 +1,20 @@
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Logger;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 
 /**
  */
 public class Screenshoter {
 
     private static final Logger LOGGER = Logger.getLogger(Screenshoter.class.getName());
+    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("sreen_ddMMyyyy_hhmmSSss");
+    private static final String PNG = ".png";
     private final String token;
 
 
@@ -20,18 +27,22 @@ public class Screenshoter {
     }
 
 
-    public void saveScreenshot(String name, byte[] bytes) {
-        try (ByteArrayInputStream is = new ByteArrayInputStream(bytes)) {
-            saveScreenhsot(name, is);
+    public void saveScreenhsot(String name, InputStream bytes) {
+        try {
+            String s = YaDiskImageUploadHelper.uploadFile(name, bytes, token);
+            LOGGER.info("Screenshot saved " + s);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void saveScreenhsot(String name, InputStream bytes) {
-        try {
-            String s = YaDiskImageUploadHelper.uploadFile(name, bytes, token);
-            LOGGER.info("Screenshot saved "+s);
+
+    public void takeScreenshot(WebDriver webDriver) {
+
+        TakesScreenshot sc = (TakesScreenshot) webDriver;
+        byte[] screenshotAs = sc.getScreenshotAs(OutputType.BYTES);
+        try (ByteArrayInputStream bytes = new ByteArrayInputStream(screenshotAs)) {
+            saveScreenhsot(FORMAT.format(new Date()) + PNG, bytes);
         } catch (IOException e) {
             e.printStackTrace();
         }

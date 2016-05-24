@@ -13,7 +13,7 @@ import org.openqa.selenium.WebDriver;
 public class Screenshoter {
 
     private static final Logger LOGGER = Logger.getLogger(Screenshoter.class.getName());
-    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("sreen_ddMMyyyy_hhmmSSss");
+    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("ddMMyyyy_hhmmSSss");
     private static final String PNG = ".png";
     private final String token;
 
@@ -42,7 +42,7 @@ public class Screenshoter {
         TakesScreenshot sc = (TakesScreenshot) webDriver;
         byte[] screenshotAs = sc.getScreenshotAs(OutputType.BYTES);
         try (ByteArrayInputStream bytes = new ByteArrayInputStream(screenshotAs)) {
-            saveScreenhsot(FORMAT.format(new Date()) + PNG, bytes);
+            saveScreenhsot("screen_"+FORMAT.format(new Date()) + PNG, bytes);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -21,8 +21,8 @@ public abstract class AbstractTest {
         DriverRegistry.setDriver(webDriver);
     }
 
-    @After
-    public void stopDriver(){
-        DriverRegistry.remove();
-    }
+//    @After
+//    public void stopDriver(){
+//        DriverRegistry.remove();
+//    }
 }

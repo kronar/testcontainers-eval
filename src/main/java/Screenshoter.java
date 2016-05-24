@@ -38,7 +38,6 @@ public class Screenshoter {
 
 
     public void takeScreenshot(WebDriver webDriver) {
-
         TakesScreenshot sc = (TakesScreenshot) webDriver;
         byte[] screenshotAs = sc.getScreenshotAs(OutputType.BYTES);
         try (ByteArrayInputStream bytes = new ByteArrayInputStream(screenshotAs)) {

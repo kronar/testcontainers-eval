@@ -3,8 +3,6 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testcontainers.containers.BrowserWebDriverContainer;
@@ -15,6 +13,7 @@ import org.testcontainers.containers.BrowserWebDriverContainer;
 public class TestOkRu {
 
     private static final Logger LOGGER = Logger.getLogger(TestOkRu.class.getName());
+    private static final By FIELD_EMAIL = By.id("field_email");
     @Rule
     public BrowserWebDriverContainer chrome = new BrowserWebDriverContainer()
             .withDesiredCapabilities(DesiredCapabilities.chrome());
@@ -25,12 +24,7 @@ public class TestOkRu {
         RemoteWebDriver webDriver = chrome.getWebDriver();
         webDriver.get("https://ok.ru");
 
-        Assert.assertTrue(webDriver.findElements(By.id("field_email")).size() > 0);
-
-        TakesScreenshot sc = (TakesScreenshot) webDriver;
-        byte[] screenshotAs = sc.getScreenshotAs(OutputType.BYTES);
-
+        Assert.assertTrue(webDriver.findElements(FIELD_EMAIL).size() > 0);
         Screenshoter.create().takeScreenshot(webDriver);
-        LOGGER.info("Screenshot taken! Size = " + screenshotAs.length);
     }
 }

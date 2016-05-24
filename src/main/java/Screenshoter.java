@@ -1,12 +1,15 @@
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Logger;
 
 /**
  */
 public class Screenshoter {
 
+    private static final Logger LOGGER = Logger.getLogger(Screenshoter.class.getName());
     private final String token;
+
 
     private Screenshoter(String token) {
         this.token = token;
@@ -27,7 +30,8 @@ public class Screenshoter {
 
     public void saveScreenhsot(String name, InputStream bytes) {
         try {
-            YaDiskImageUploadHelper.uploadFile(name, bytes, token);
+            String s = YaDiskImageUploadHelper.uploadFile(name, bytes, token);
+            LOGGER.info("Screenshot saved "+s);
         } catch (IOException e) {
             e.printStackTrace();
         }

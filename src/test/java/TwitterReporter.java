@@ -11,15 +11,21 @@ import twitter4j.TwitterException;
 public class TwitterReporter extends RunListener {
 
     private static final Logger LOGGER = Logger.getLogger(TwitterProvider.class.getName());
+
+    public TwitterReporter() {
+        System.out.println("Listener created");
+    }
+
     @Override
     public void testFailure(Failure failure) throws Exception {
+        System.out.println("Test failure "+failure.toString());
         try {
             Twitter twitter = TwitterProvider.get();
             Status status = twitter.updateStatus("@PapaMinos " + failure.getDescription().getClassName());
-            LOGGER.info("Status "+status);
+            System.out.println("Status "+status);
 
         } catch (TwitterException e) {
-            LOGGER.severe(Throwables.getStackTraceAsString(e));
+            System.out.println("Listener error "+Throwables.getStackTraceAsString(e));
 
         }
     }

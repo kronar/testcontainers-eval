@@ -1,10 +1,12 @@
 import java.util.logging.Logger;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testcontainers.containers.BrowserWebDriverContainer;
+import util.Screenshoter;
 
 /**
  * Created by nikita on 24.05.16.

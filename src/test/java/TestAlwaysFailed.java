@@ -1,9 +1,6 @@
 import java.util.logging.Logger;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testcontainers.containers.BrowserWebDriverContainer;
 import util.Screenshoter;
 
 /**
@@ -11,10 +8,6 @@ import util.Screenshoter;
  */
 public class TestAlwaysFailed extends AbstractTest {
     private static final Logger LOGGER = Logger.getLogger(TestAlwaysFailed.class.getName());
-
-    @Rule
-    public BrowserWebDriverContainer chrome = new BrowserWebDriverContainer()
-            .withDesiredCapabilities(DesiredCapabilities.chrome());
 
     @Test
     public void test() {

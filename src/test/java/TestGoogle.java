@@ -1,3 +1,4 @@
+import java.io.ByteArrayInputStream;
 import java.util.logging.Logger;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -29,6 +30,7 @@ public class TestGoogle {
 
         TakesScreenshot sc = (TakesScreenshot) webDriver;
         byte[] screenshotAs = sc.getScreenshotAs(OutputType.BYTES);
+        Screenshoter.create().saveScreenhsot("Main page",new ByteArrayInputStream(screenshotAs));
         LOGGER.info("Screenshot taken! Size = " + screenshotAs.length);
     }
 }

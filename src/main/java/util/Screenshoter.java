@@ -17,6 +17,7 @@ public class Screenshoter {
     private static final Logger LOGGER = Logger.getLogger(Screenshoter.class.getName());
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("ddMMyyyy_HHmmssSS");
     private static final String PNG = ".png";
+    public static final String NULL_OBJ = "failedToSaveScreenshot";
     private final String token;
 
 
@@ -29,21 +30,42 @@ public class Screenshoter {
     }
 
 
-    public void saveScreenhsot(String name, InputStream bytes) {
+    public String saveScreenshot(String name, InputStream bytes) {
         try {
             String s = YaDiskImageUploadHelper.uploadFile(name, bytes, token);
             LOGGER.info("Screenshot saved " + s);
+            return s;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return name;
     }
 
+
+    public String saveScreenshot(String name, WebDriver driver) {
+        try {
+            InputStream screenshotAsStream = getScreenshotAsStream(driver);
+            String s = YaDiskImageUploadHelper.uploadFile(name, screenshotAsStream, token);
+            LOGGER.info("Screenshot saved " + s);
+            return s;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
+
+    public InputStream getScreenshotAsStream(WebDriver webDriver){
+        TakesScreenshot sc = (TakesScreenshot) webDriver;
+        byte[] screenshotAs = sc.getScreenshotAs(OutputType.BYTES);
+        ByteArrayInputStream bytes = new ByteArrayInputStream(screenshotAs);
+        return bytes;
+    }
 
     public void takeScreenshot(WebDriver webDriver) {
         TakesScreenshot sc = (TakesScreenshot) webDriver;
         byte[] screenshotAs = sc.getScreenshotAs(OutputType.BYTES);
         try (ByteArrayInputStream bytes = new ByteArrayInputStream(screenshotAs)) {
-            saveScreenhsot("screen_"+FORMAT.format(new Date()) + PNG, bytes);
+            saveScreenshot("screen_"+FORMAT.format(new Date()) + PNG, bytes);
         } catch (IOException e) {
             e.printStackTrace();
         }

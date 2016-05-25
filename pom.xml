@@ -60,12 +60,6 @@
                 <configuration>
                     <threadCount>1</threadCount>
                     <workingDirectory>${project.build.directory}/test-classes</workingDirectory>
-                    <!--<properties>-->
-                        <!--<property>-->
-                            <!--<name>listener</name>-->
-                            <!--<value>util.TwitterReporter</value>-->
-                        <!--</property>-->
-                    <!--</properties>-->
                 </configuration>
             </plugin>
         </plugins>

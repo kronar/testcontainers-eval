@@ -11,7 +11,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
 /**
- * Created by nikita on 25.05.16.
+ * Twitter reporting rule
  */
 public class MyRule extends TestWatcher {
 

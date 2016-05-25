@@ -4,11 +4,7 @@ import com.google.common.base.Throwables;
 import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testcontainers.containers.BrowserWebDriverContainer;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -20,23 +16,17 @@ import twitter4j.TwitterException;
 public class MyRule extends TestWatcher {
 
 
-    private BrowserWebDriverContainer container;
+    public MyRule(RemoteWebDriver webDriver) {
+        this.webDriver = webDriver;
+    }
+
     private RemoteWebDriver webDriver;
 
-    public BrowserWebDriverContainer getContainer() {
-        return container;
-    }
 
     public RemoteWebDriver getWebDriver() {
         return webDriver;
     }
 
-    @Override
-    public Statement apply(Statement base, Description description) {
-        container = new BrowserWebDriverContainer().withDesiredCapabilities(DesiredCapabilities.chrome());
-        webDriver = container.getWebDriver();
-        return super.apply(base, description);
-    }
 
     @Override
     protected void succeeded(Description description) {

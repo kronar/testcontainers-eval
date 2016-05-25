@@ -23,11 +23,6 @@ public class MyRule extends TestWatcher {
     private RemoteWebDriver webDriver;
 
 
-    public RemoteWebDriver getWebDriver() {
-        return webDriver;
-    }
-
-
     @Override
     protected void succeeded(Description description) {
         super.succeeded(description);

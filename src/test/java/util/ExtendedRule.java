@@ -36,11 +36,7 @@ public class ExtendedRule extends BrowserWebDriverContainer {
 
             if (Screenshoter.NULL_OBJ.equals(link)) {
                 LOGGER.severe("Null object screenshot");
-//                Status status = twitter.updateStatus("@PapaMinos " + description.getTestClass().getName());
             } else {
-//                Status status = twitter.updateStatus("@PapaMinos " + description.getTestClass().getName());
-//                status = twitter.updateStatus("@PapaMinos Screenshot" + link);
-
                 String tweet = "@PapaMinos failure screenshot at " + travisJobNumber;
                 LOGGER.info(tweet);
                 StatusUpdate statusUpdate = new StatusUpdate(tweet);
@@ -49,8 +45,7 @@ public class ExtendedRule extends BrowserWebDriverContainer {
             }
 
         } catch (TwitterException twe) {
-            System.out.println("Listener error " + Throwables.getStackTraceAsString(twe));
-
+           LOGGER.severe("Listener error " + Throwables.getStackTraceAsString(twe));
         } finally {
             super.failed(e, description);
         }

@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import util.Screenshoter;
 
 /**
- * Created by nikita on 22.05.16.
+ * 
  */
 public class TestOkRu extends AbstractTest {
 

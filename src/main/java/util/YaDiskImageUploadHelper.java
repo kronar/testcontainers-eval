@@ -30,35 +30,39 @@ public class YaDiskImageUploadHelper {
         // {@link https://tech.yandex.ru/disk/api/reference/public-docpage/}
         // token can be found https://tech.yandex.ru/disk/poligon/
         CloseableHttpClient aDefault = HttpClients.createDefault();
-        HttpGet request = new HttpGet("https://cloud-api.yandex.net/v1/disk/resources/upload?path=" + URLEncoder.encode(name, StandardCharsets.UTF_8.name()) + "&overwrite=true");
-        CloseableHttpResponse execute = aDefault.execute(addAuth(request, token));
-        checkResponseCode(execute);
-        String s = EntityUtils.toString(execute.getEntity());
-        JsonParser jsonParser = new JsonParser();
-        String asString = jsonParser.parse(s).getAsJsonObject().get("href").getAsString();
 
-        HttpPut request1 = new HttpPut(asString);
-        request1.setEntity(new InputStreamEntity(image, ContentType.APPLICATION_OCTET_STREAM));
-        CloseableHttpResponse execute1 = aDefault.execute(request1);
-        checkResponseCode(execute1, SUCCESS_UPLOAD);
-        HttpGet httpGet = new HttpGet("https://cloud-api.yandex.net/v1/disk/resources/last-uploaded?limit=1");
-        CloseableHttpResponse execute2 = aDefault.execute(addAuth(httpGet, token));
-        checkResponseCode(execute2);
-        String pathToPublish = jsonParser.parse(EntityUtils.toString(execute2.getEntity())).getAsJsonObject().get("items").getAsJsonArray().get(0).getAsJsonObject().get("path").getAsString();
-        //publishing
-        String encodedPathToFile = URLEncoder.encode(pathToPublish, StandardCharsets.UTF_8.name());
-        HttpPut publishReq = new HttpPut("https://cloud-api.yandex.net/v1/disk/resources/publish?path=" + encodedPathToFile);
+        try {
+            HttpGet request = new HttpGet("https://cloud-api.yandex.net/v1/disk/resources/upload?path=" + URLEncoder.encode(name, StandardCharsets.UTF_8.name()) + "&overwrite=true");
+            CloseableHttpResponse execute = aDefault.execute(addAuth(request, token));
+            checkResponseCode(execute);
+            String s = EntityUtils.toString(execute.getEntity());
+            JsonParser jsonParser = new JsonParser();
+            String asString = jsonParser.parse(s).getAsJsonObject().get("href").getAsString();
+
+            HttpPut request1 = new HttpPut(asString);
+            request1.setEntity(new InputStreamEntity(image, ContentType.APPLICATION_OCTET_STREAM));
+            CloseableHttpResponse execute1 = aDefault.execute(request1);
+            checkResponseCode(execute1, SUCCESS_UPLOAD);
+            HttpGet httpGet = new HttpGet("https://cloud-api.yandex.net/v1/disk/resources/last-uploaded?limit=1");
+            CloseableHttpResponse execute2 = aDefault.execute(addAuth(httpGet, token));
+            checkResponseCode(execute2);
+            String pathToPublish = jsonParser.parse(EntityUtils.toString(execute2.getEntity())).getAsJsonObject().get("items").getAsJsonArray().get(0).getAsJsonObject().get("path").getAsString();
+            //publishing
+            String encodedPathToFile = URLEncoder.encode(pathToPublish, StandardCharsets.UTF_8.name());
+            HttpPut publishReq = new HttpPut("https://cloud-api.yandex.net/v1/disk/resources/publish?path=" + encodedPathToFile);
 
 
-        CloseableHttpResponse execute3 = aDefault.execute(addAuth(publishReq, token));
-        checkResponseCode(execute3);
-        //get meta
-        HttpGet metaReq = new HttpGet("https://cloud-api.yandex.net/v1/disk/resources?path=" + encodedPathToFile);
-        CloseableHttpResponse execute4 = aDefault.execute(addAuth(metaReq, token));
-        checkResponseCode(execute4);
-        String publicUrl = jsonParser.parse(EntityUtils.toString(execute4.getEntity())).getAsJsonObject().get("public_url").getAsString();
-        HttpClientUtils.closeQuietly(aDefault);
-        return publicUrl;
+            CloseableHttpResponse execute3 = aDefault.execute(addAuth(publishReq, token));
+            checkResponseCode(execute3);
+            //get meta
+            HttpGet metaReq = new HttpGet("https://cloud-api.yandex.net/v1/disk/resources?path=" + encodedPathToFile);
+            CloseableHttpResponse execute4 = aDefault.execute(addAuth(metaReq, token));
+            checkResponseCode(execute4);
+            String publicUrl = jsonParser.parse(EntityUtils.toString(execute4.getEntity())).getAsJsonObject().get("public_url").getAsString();
+            return publicUrl;
+        } finally {
+            HttpClientUtils.closeQuietly(aDefault);
+        }
     }
 
 

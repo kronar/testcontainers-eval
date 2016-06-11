@@ -43,10 +43,12 @@ public class YaDiskImageUploadHelper {
             request1.setEntity(new InputStreamEntity(image, ContentType.APPLICATION_OCTET_STREAM));
             CloseableHttpResponse execute1 = aDefault.execute(request1);
             checkResponseCode(execute1, SUCCESS_UPLOAD);
+
             HttpGet httpGet = new HttpGet("https://cloud-api.yandex.net/v1/disk/resources/last-uploaded?limit=1");
             CloseableHttpResponse execute2 = aDefault.execute(addAuth(httpGet, token));
             checkResponseCode(execute2);
             String pathToPublish = jsonParser.parse(EntityUtils.toString(execute2.getEntity())).getAsJsonObject().get("items").getAsJsonArray().get(0).getAsJsonObject().get("path").getAsString();
+
             //publishing
             String encodedPathToFile = URLEncoder.encode(pathToPublish, StandardCharsets.UTF_8.name());
             HttpPut publishReq = new HttpPut("https://cloud-api.yandex.net/v1/disk/resources/publish?path=" + encodedPathToFile);
@@ -54,6 +56,7 @@ public class YaDiskImageUploadHelper {
 
             CloseableHttpResponse execute3 = aDefault.execute(addAuth(publishReq, token));
             checkResponseCode(execute3);
+
             //get meta
             HttpGet metaReq = new HttpGet("https://cloud-api.yandex.net/v1/disk/resources?path=" + encodedPathToFile);
             CloseableHttpResponse execute4 = aDefault.execute(addAuth(metaReq, token));
